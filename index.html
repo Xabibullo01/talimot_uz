@@ -54,6 +54,40 @@
   .cardFoot{align-items:flex-start;flex-direction:column}
 }
 </style>
+<style>
+.menuToggle{display:none;border:1px solid var(--line);background:#fff;border-radius:11px;width:42px;height:42px;font-size:22px;line-height:1;color:var(--dark)}
+@media(max-width:900px){
+  .menuToggle{display:block;margin-left:auto;margin-right:10px}
+  .navlinks.open{display:flex;position:absolute;top:calc(100% + 1px);left:0;right:0;flex-direction:column;gap:0;padding:8px 16px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 14px 25px rgba(16,24,40,.08)}
+  .navlinks.open a{padding:13px 4px;border-bottom:1px solid var(--line)}
+  .navlinks.open a:last-child{border-bottom:0}
+}
+@media(max-width:620px){.menuToggle{margin-left:auto;margin-right:0}}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const nav=document.querySelector('.nav');
+  const links=document.querySelector('.navlinks');
+  if(!nav||!links)return;
+  const menu=document.createElement('button');
+  menu.className='menuToggle';
+  menu.type='button';
+  menu.setAttribute('aria-label','Menyuni ochish');
+  menu.setAttribute('aria-expanded','false');
+  menu.textContent='☰';
+  nav.insertBefore(menu,links);
+  menu.addEventListener('click',()=>{
+    const open=links.classList.toggle('open');
+    menu.setAttribute('aria-expanded',String(open));
+    menu.textContent=open?'×':'☰';
+  });
+  links.addEventListener('click',()=>{
+    links.classList.remove('open');
+    menu.setAttribute('aria-expanded','false');
+    menu.textContent='☰';
+  });
+});
+</script>
 </head>
 <body>
 <nav class="nav"><a class="logo" href="#top"><img src="logo.jpg" alt="Ta'limTop logo">Ta'lim<i>Top</i></a><div class="navlinks"><a href="#muassasalar" data-i="institutions">Muassasalar</a><a href="#compare" data-i="compare">Solishtirish</a><a href="#partners" data-i="partners">Hamkorlar</a></div><div class="actions"><select id="lang" class="lang" onchange="setLang(this.value)"><option value="uz">O‘zbek</option><option value="en">English</option><option value="ru">Русский</option></select><button id="premiumBtn" class="btn premiumBtn" onclick="openPremium()">⭐ Premium sotib oling</button><button id="loginBtn" class="btn light" onclick="openAuth()" data-i="login">Kirish</button><button id="registerBtn" class="btn primary" onclick="openAuth('register')" data-i="register">Ro‘yxatdan o‘tish</button><button id="profileBtn" class="btn dark profile" onclick="openProfile()">Profil</button></div></nav>
